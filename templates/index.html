@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResumeIQ - Upload Your CV</title>
+    <<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>ResumeIQ</h1>
+        <button id="toggle-dark-mode">Toggle Dark Mode</button>
+        <form id="cvForm" action="{{url_for('submit_cv')}}" method="POST"> 
+            <textarea id="cv" name="data_cv" placeholder="Enter your CV here"></textarea><br>
+            <button type="submit">Submit</button>
+        </form>
+
+        <div id="response">
+            <h2>Generated Questions:</h2>
+            {% if questions %}
+                <pre>{{ questions }}</pre>
+            {% else %}
+                <p>Questions will appear here after you submit your CV.</p>
+            {% endif %}
+        </div>        
+
+
+    <script>
+        // Selectors
+        const toggleDarkModeButton = document.getElementById('toggle-dark-mode');
+        const body = document.body;
+
+        // Event Listener to Toggle Dark Mode
+        toggleDarkModeButton.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+        });
+    </script>
+</body>
+</html>

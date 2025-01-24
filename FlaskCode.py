@@ -1,16 +1,34 @@
 from flask import *
 import requests
 import os
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
+from pathlib import Path
 
 # Load environment variables
-load_dotenv()
+load_dotenv("API_KEY.env")
 
 # Initialize Flask app
 app = Flask(__name__)
 
 # IBM API Key from .env file
 API_KEY = os.getenv('API_KEY')
+
+def generate_access_token(api_key):
+    url = "https://iam.cloud.ibm.com/identity/token"
+    headers = {
+        "Content-Type": "application/x-www-form-urlencoded"
+    }
+    data = {
+        "grant_type": "urn:ibm:params:oauth:grant-type:apikey",
+        "apikey": api_key
+    }
+
+    try:
+        response = requests.post(url, headers=headers, data=data, timeout=10)
+        response.raise_for_status()
+        return response.json().get("access_token")
+    except Exception as e:
+        return None
 
 @app.route('/')
 def index():
@@ -40,9 +58,10 @@ def submit_cv():
     # Get the resume (CV) content from the request
     cv_data = request.form.get('data_cv')
     #print(cv_data)
+    api_key = 'NXTLBf65fMGcpxrhFShEOyevBKwqnTqovfbZHpvucVAR'
 
+    iam_token = generate_access_token(API_KEY)
     # Invoke IBM API
-    iam_token = "eyJraWQiOiIyMDI0MTIzMTA4NDMiLCJhbGciOiJSUzI1NiJ9.eyJpYW1faWQiOiJJQk1pZC02OTgwMDBKVk4yIiwiaWQiOiJJQk1pZC02OTgwMDBKVk4yIiwicmVhbG1pZCI6IklCTWlkIiwianRpIjoiM2Q5MjBiM2UtODJhOC00Y2NjLTkwNWYtYzZhMjE5Njk1OWI3IiwiaWRlbnRpZmllciI6IjY5ODAwMEpWTjIiLCJnaXZlbl9uYW1lIjoiVmFpYmhhdiIsImZhbWlseV9uYW1lIjoiTmF3YWxlIiwibmFtZSI6IlZhaWJoYXYgTmF3YWxlIiwiZW1haWwiOiJ2YWliaGF2bmF3YWxlMDVAZ21haWwuY29tIiwic3ViIjoidmFpYmhhdm5hd2FsZTA1QGdtYWlsLmNvbSIsImF1dGhuIjp7InN1YiI6InZhaWJoYXZuYXdhbGUwNUBnbWFpbC5jb20iLCJpYW1faWQiOiJJQk1pZC02OTgwMDBKVk4yIiwibmFtZSI6IlZhaWJoYXYgTmF3YWxlIiwiZ2l2ZW5fbmFtZSI6IlZhaWJoYXYiLCJmYW1pbHlfbmFtZSI6Ik5hd2FsZSIsImVtYWlsIjoidmFpYmhhdm5hd2FsZTA1QGdtYWlsLmNvbSJ9LCJhY2NvdW50Ijp7InZhbGlkIjp0cnVlLCJic3MiOiJlYzUzNDE1Zjc4OTU0ZTU2YjUwMGU0MzQxN2E0ZjkyOCIsImZyb3plbiI6dHJ1ZX0sImlhdCI6MTczNzY2MDg2MSwiZXhwIjoxNzM3NjY0NDYxLCJpc3MiOiJodHRwczovL2lhbS5jbG91ZC5pYm0uY29tL2lkZW50aXR5IiwiZ3JhbnRfdHlwZSI6InVybjppYm06cGFyYW1zOm9hdXRoOmdyYW50LXR5cGU6YXBpa2V5Iiwic2NvcGUiOiJpYm0gb3BlbmlkIiwiY2xpZW50X2lkIjoiZGVmYXVsdCIsImFjciI6MSwiYW1yIjpbInB3ZCJdfQ.oMZm2CK5qGG-C1dDxxgiOsah0UIvNBEydcuyNrS3CwouI3_S4W3SGCbmnVCNHY1_tL3Dw5lNbrP2KR2vxOrc0pXr9swEcfY08YAEg2mPeYKECjohmRffD-_e8vejvXzT5iRFci7o-QcBz4oWisBW6w1OTcsOBHA7U-xv70X9-wxFwnicmgVrmM8-W0sJveGiO0dPlhJ_ctblzbwzVxYLiGIRatKnHKTSq8BRAiVtYoKm-Pt4WLZhTEN7iNUa7-160xBEjF7ECPV7lfMrYv_HWhdg8mnJ8lqzIJhonJ8VYeDEMuuBp1FyD5kyPzIlX-P4K4yIgMQSYwakxHc42t7sHg"
     api_response = invoke_ibm_api(cv_data, iam_token)
     
     # Extract questions from the generated text
@@ -54,5 +73,4 @@ def submit_cv():
     return render_template("index.html", questions=formatted_questions)
 
 # Run the app
-if __name__ == '__main__':
-    app.run(debug=True)
+app.run(debug=True)

@@ -4,9 +4,7 @@
 
 
 ## To Start
-1. Run 'IAM_TOKEN.py' and copy the token generated
-2. Paste the token in 'FlaskCode.py' in the definition of 'submit_cv()' function
-3. Create a file called 'API_KEY.env' and store the IBM API key in that
-4. Run the 'FlaskCode.py' to start the server.
-5. Open the 'index.html' in 'templates'
-6. Paste your Resume (in text form) and click submit
+1. Create a file called 'API_KEY.env' and store the IBM API key in that
+2. Run the 'FlaskCode.py' to start the server.
+3. Open the 'index.html' in 'templates'
+4. Paste your Resume (in text form) and click submit

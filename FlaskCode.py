@@ -4,13 +4,13 @@ import os
 from dotenv import load_dotenv, find_dotenv
 from pathlib import Path
 
-# Load environment variables
+
 load_dotenv("API_KEY.env")
 
 # Initialize Flask app
 app = Flask(__name__)
 
-# IBM API Key from .env file
+
 API_KEY = os.getenv('API_KEY')
 
 def generate_access_token(api_key):
@@ -58,19 +58,17 @@ def submit_cv():
     # Get the resume (CV) content from the request
     cv_data = request.form.get('data_cv')
     #print(cv_data)
-    api_key = 'NXTLBf65fMGcpxrhFShEOyevBKwqnTqovfbZHpvucVAR'
 
     iam_token = generate_access_token(API_KEY)
-    # Invoke IBM API
+   
     api_response = invoke_ibm_api(cv_data, iam_token)
     
     # Extract questions from the generated text
     questions = api_response.get("results", [])[0].get("generated_text", "")
-    formatted_questions = questions.strip()  # Remove any unwanted leading/trailing spaces
+    formatted_questions = questions.strip()  
     # print(formatted_questions)
     
     # Return the questions to the frontend
     return render_template("index.html", questions=formatted_questions)
 
-# Run the app
 app.run(debug=True)

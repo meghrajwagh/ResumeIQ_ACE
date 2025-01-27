@@ -1,11 +1,9 @@
-/* General Reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Body Styling */
 body {
     font-family: 'Roboto', Arial, sans-serif;
     line-height: 1.6;
@@ -16,13 +14,11 @@ body {
     transition: background-color 0.3s, color 0.3s;
 }
 
-/* Dark Mode Styling */
 body.dark-mode {
     background: linear-gradient(to bottom right, #121212, #1e1e1e);
     color: #f1f1f1;
 }
 
-/* Header Section */
 h1 {
     font-size: 2.5rem;
     text-align: center;
@@ -30,7 +26,6 @@ h1 {
     margin-bottom: 20px;
 }
 
-/* Form Section */
 form {
     max-width: 600px;
     margin: 0 auto;
@@ -45,7 +40,6 @@ body.dark-mode form {
     background: #2c2c2c;
 }
 
-/* Textarea Styling */
 textarea {
     width: 100%;
     height: 150px;
@@ -64,7 +58,6 @@ textarea:focus {
     outline: none;
 }
 
-/* Button Styling */
 button {
     background: #2575fc;
     color: #fff;
@@ -89,11 +82,10 @@ body.dark-mode button:hover {
     background: #2563eb;
 }
 
-/* Dark Mode Button Styling */
 #toggle-dark-mode {
-    position: fixed; /* Fix it in place */
-    top: 20px; /* Distance from top */
-    right: 20px; /* Distance from right */
+    position: fixed; 
+    top: 20px;
+    right: 20px;
     background-color: #2575fc;
     color: white;
     padding: 10px 20px;
@@ -104,8 +96,8 @@ body.dark-mode button:hover {
 }
 
 #toggle-dark-mode:hover {
-    transform: scale(1.1); /* Slightly enlarge the button */
-    background-color: #1a5cc2; /* Change color on hover */
+    transform: scale(1.1);
+    background-color: #1a5cc2; 
 }
 
 body.dark-mode #toggle-dark-mode {
@@ -117,7 +109,6 @@ body.dark-mode #toggle-dark-mode:hover {
     background-color: #2563eb;
 }
 
-/* Response Box Styling */
 #response {
     max-width: 600px;
     margin: 20px auto;
@@ -165,7 +156,6 @@ body.dark-mode #response p {
     color: #b0bec5;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     h1 {
         font-size: 2rem;

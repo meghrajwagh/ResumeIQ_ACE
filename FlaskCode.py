@@ -61,16 +61,12 @@ def submit_cv():
     # Get the resume (CV) content from the request
     cv_data = request.form.get('data_cv')
     iam_token = generate_access_token(API_KEY)
-    print(f' IAM_TOKEN {iam_token}')
    
     api_response = invoke_ibm_api(cv_data, iam_token)
-    print(f' API_RESPONSE {api_response}')
     
     # Extract questions from the generated text
     questions = api_response.get("results", [])[0].get("generated_text", "")
-    print(f'QUESTIONS {questions}')
     formatted_questions = questions.strip()  
-    print(formatted_questions)
     
     # Return the questions to the frontend
     return render_template("index.html", questions=formatted_questions)

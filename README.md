@@ -4,6 +4,8 @@
 
 ## Requirements
 Install Python Modules required to run the server
+
+Open your terminal and paste and run these commands there
 ```bash
     pip install flask
     pip install python-dotenv
